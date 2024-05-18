@@ -12,4 +12,4 @@ $$
 
 ## Result
 
-![1716017365974](image/readme/1716017365974.png)
+![training_rewards](./result/training_rewards.png)
