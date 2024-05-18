@@ -76,6 +76,9 @@ class GridWorld:
         sleep(1)
 
 
+# If you want to use another env, make sure it has:
+# methods: reset(), step(action), render(), also the return type
+# attributes: action_space, observation_space
 env = GridWorld(
     grid_size_len=12,
     grid_size_width=4,

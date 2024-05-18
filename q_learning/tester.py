@@ -18,7 +18,6 @@ class Tester:
         state = self.env.reset()
         done = False
         while not done:
+            self.env.render()
             action = self.agent.greedy(state)
             state, _, done = self.env.step(action)
-            self.env.render()
-        self.env.render()
