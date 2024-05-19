@@ -41,7 +41,10 @@ class Agent:
         self.learning_step_counter = 0
         self.update_interval = update_interval
 
-    def select_action(self, state):
+    def select_action(self, state, test=False):
+        if test:
+            with torch.no_grad():
+                return torch.argmax(self.dqn(state)).item()
         # epsilon-greedy policy
         if torch.rand(1) > self.epsilon:
             with torch.no_grad():

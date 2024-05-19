@@ -1,13 +1,13 @@
 import gym
 
-env = gym.make("MountainCar-v0")
+env = gym.make("MountainCar-v0", render_mode="human")
 
 params = {
     "lr": 0.0001,
     "gamma": 0.99,
     "epsilon": 1.0,
-    "epsilon_decay": 0.9999,
-    "epsilon_min": 0.0001,
+    "epsilon_decay": 0.99999,
+    "epsilon_min": 0.00001,
     "batch_size": 64,
     "memory_capacity": 2000,
     "update_interval": 50,

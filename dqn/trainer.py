@@ -44,6 +44,7 @@ class Trainer:
                 if done:
                     break
                 state = next_state
+            episode_rewards.append(episode_reward)
             bar.set_description(f"Episode Reward: {episode_reward:.2f}")
         # save
         self.agent.save()
