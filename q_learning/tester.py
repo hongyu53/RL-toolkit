@@ -17,7 +17,10 @@ class Tester:
         self.agent.load()
         state = self.env.reset()
         done = False
+        episode_reward = 0
         while not done:
             self.env.render()
             action = self.agent.greedy(state)
-            state, _, done = self.env.step(action)
+            state, reward, done = self.env.step(action)
+            episode_reward += reward
+        print(f"Episode Reward: {episode_reward}")
