@@ -1,6 +1,6 @@
 import gym
 
-env = gym.make("MountainCar-v0", render_mode="human")
+env = gym.make("MountainCar-v0")
 
 params = {
     "lr": 0.0001,
