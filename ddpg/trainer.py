@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from dqn.agent import Agent
-from dqn.assets import env, params
-from dqn.utils.replay_buffer import ReplayBuffer
+from ddpg.agent import Agent
+from ddpg.assets import env, params
+from ddpg.utils.replay_buffer import ReplayBuffer
 from tqdm import tqdm
 
 
@@ -13,20 +13,19 @@ class Trainer:
         self.agent = Agent(
             state_dim=params["state_dim"],
             action_dim=params["action_dim"],
+            action_bound=params["action_bound"],
             lr=params["lr"],
             gamma=params["gamma"],
-            epsilon=params["epsilon"],
-            epsilon_decay=params["epsilon_decay"],
-            epsilon_min=params["epsilon_min"],
-            update_interval=params["update_interval"],
+            tau=params["tau"],
+            noise_std=params["noise_std"],
         )
         self.buffer = ReplayBuffer(
             memory_capacity=params["memory_capacity"], batch_size=params["batch_size"]
         )
 
     def train(self):
-        episodes = params["episodes"]
-        bar = tqdm(range(episodes))
+        num_episode = params["num_episode"]
+        bar = tqdm(range(num_episode))
         episode_rewards = []
 
         for _ in bar:
@@ -35,17 +34,18 @@ class Trainer:
 
             while True:
                 action = self.agent.select_action(torch.Tensor(state))
-                next_state, reward, done, _, _ = self.env.step(action)
+                next_state, reward, done, truncated, _ = self.env.step(action)
                 self.buffer.store((state, action, next_state, reward, done))
                 if self.buffer.is_full():
                     training_set = self.buffer.sample()
-                    self.agent.train(training_set)
-                if done:
+                    self.agent.train(training_set, params["num_epoch"])
+                if done or truncated:
                     break
                 state = next_state
                 episode_reward += reward
-            episode_rewards.append(episode_reward)
             bar.set_description(f"Episode Reward: {episode_reward:.2f}")
+            episode_rewards.append(episode_reward)
+
         # save
         self.agent.save()
 
@@ -59,4 +59,4 @@ class Trainer:
         plt.ylabel("Reward")
         plt.legend(["Reward", "Avg Reward"])
         plt.tight_layout()
-        plt.savefig(f"./dqn/result/training_rewards.png")
+        plt.savefig(f"./ddpg/result/reward.png")

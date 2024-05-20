@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from dqn.agent import Agent
-from dqn.assets import env, params
 from tqdm import tqdm
+
+from ddpg.agent import Agent
+from ddpg.assets import env, params
 
 
 class Tester:
@@ -12,12 +13,11 @@ class Tester:
         self.agent = Agent(
             state_dim=params["state_dim"],
             action_dim=params["action_dim"],
+            action_bound=params["action_bound"],
             lr=params["lr"],
             gamma=params["gamma"],
-            epsilon=params["epsilon"],
-            epsilon_decay=params["epsilon_decay"],
-            epsilon_min=params["epsilon_min"],
-            update_interval=params["update_interval"],
+            tau=params["tau"],
+            noise_std=params["noise_std"],
         )
 
     def test(self):
@@ -31,9 +31,10 @@ class Tester:
             episode_reward = 0
 
             while True:
+                env.render()
                 action = self.agent.select_action(torch.Tensor(state), test=True)
-                next_state, reward, done, _, _ = self.env.step(action)
-                if done:
+                next_state, reward, done, truncated, _ = self.env.step(action)
+                if done or truncated:
                     break
                 state = next_state
                 episode_reward += reward
@@ -50,4 +51,4 @@ class Tester:
         plt.ylabel("Reward")
         plt.legend(["Reward", "Avg Reward"])
         plt.tight_layout()
-        plt.savefig(f"./dqn/result/test_rewards.png")
+        plt.savefig(f"./ddpg/result/test_rewards.png")

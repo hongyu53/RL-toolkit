@@ -5,7 +5,7 @@ parser.add_argument(
     "-a",
     "--algorithm",
     type=str,
-    choices=["dqn", "q_learning"],
+    choices=["dqn", "q_learning", "ddpg"],
     help="select algorithm",
 )
 parser.add_argument(
@@ -36,4 +36,14 @@ elif args.algorithm == "q_learning":
         trainer.train()
     elif args.mode == "test":
         tester = q_learning.tester.Tester()
+        tester.test()
+elif args.algorithm == "ddpg":
+    import ddpg.tester
+    import ddpg.trainer
+
+    if args.mode == "train":
+        trainer = ddpg.trainer.Trainer()
+        trainer.train()
+    elif args.mode == "test":
+        tester = ddpg.tester.Tester()
         tester.test()
