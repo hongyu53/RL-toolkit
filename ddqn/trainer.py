@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from dqn.agent import Agent
-from dqn.assets import env, params
-from dqn.utils.replay_buffer import ReplayBuffer
 from tqdm import tqdm
+
+from ddqn.agent import Agent
+from ddqn.assets import env, params
+from ddqn.utils.replay_buffer import ReplayBuffer
 
 
 class Trainer:

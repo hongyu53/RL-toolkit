@@ -4,7 +4,6 @@ env = gym.make(
     "Pendulum-v1",
     max_episode_steps=200,
     g=9.81,
-    render_mode="human",
 )
 
 params = {
