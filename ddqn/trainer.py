@@ -60,4 +60,4 @@ class Trainer:
         plt.ylabel("Reward")
         plt.legend(["Reward", "Avg Reward"])
         plt.tight_layout()
-        plt.savefig(f"./dqn/result/training_rewards.png")
+        plt.savefig(f"./ddqn/result/training_rewards.png")

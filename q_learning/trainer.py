@@ -15,10 +15,10 @@ class Trainer:
             gamma=params["gamma"],
             epsilon=params["epsilon"],
         )
+        self.num_episode = params["num_episode"]
 
     def train(self):
-        episodes = params["num_episodes"]
-        bar = tqdm(range(episodes))
+        bar = tqdm(range(self.num_episode))
         episode_rewards = []
         for _ in bar:
             episode_reward = 0

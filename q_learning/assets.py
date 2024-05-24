@@ -93,5 +93,5 @@ params = {
     "lr": 0.01,
     "gamma": 0.99,
     "epsilon": 0.01,
-    "num_episodes": 10000,
+    "num_episode": 10000,
 }
