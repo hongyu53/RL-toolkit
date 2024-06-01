@@ -1,25 +1,13 @@
 import torch
 import torch.nn as nn
+from dqn.agent import Agent as dqn_agent
 
 
-class Agent:
-    class DQN(nn.Module):
-        def __init__(self, state_dim, action_dim):
-            super(Agent.DQN, self).__init__()
-            self.fc1 = nn.Linear(state_dim, 256)
-            self.fc2 = nn.Linear(256, 128)
-            self.fc3 = nn.Linear(128, action_dim)
-
-        def forward(self, state):
-            x = torch.relu(self.fc1(state))
-            x = torch.relu(self.fc2(x))
-            actions_value = self.fc3(x)
-            return actions_value
-
+class Agent(dqn_agent):
     def __init__(
         self,
-        action_dim,
         state_dim,
+        action_dim,
         lr,
         gamma,
         epsilon,
@@ -27,31 +15,16 @@ class Agent:
         epsilon_min,
         update_interval,
     ):
-        # networks
-        self.dqn = Agent.DQN(state_dim, action_dim)
-        self.dqn_target = Agent.DQN(state_dim, action_dim)
-        self.dqn_target.load_state_dict(self.dqn.state_dict())
-        self.dqn_optimizer = torch.optim.Adam(self.dqn.parameters(), lr)
-        # hyperparameters
-        self.action_dim = action_dim
-        self.gamma = gamma
-        self.epsilon = epsilon
-        self.epsilon_decay = epsilon_decay
-        self.epsilon_min = epsilon_min
-        self.learning_step_counter = 0
-        self.update_interval = update_interval
-
-    def select_action(self, state, test=False):
-        if test:
-            with torch.no_grad():
-                return torch.argmax(self.dqn(state)).item()
-        # epsilon-greedy policy
-        if torch.rand(1) > self.epsilon:
-            with torch.no_grad():
-                action = torch.argmax(self.dqn(state)).item()
-        else:
-            action = torch.randint(0, self.action_dim, (1,)).item()
-        return action
+        super(Agent, self).__init__(
+            state_dim,
+            action_dim,
+            lr,
+            gamma,
+            epsilon,
+            epsilon_decay,
+            epsilon_min,
+            update_interval,
+        )
 
     def train(self, training_set, num_epoch):
         # update target
@@ -82,8 +55,8 @@ class Agent:
             self.epsilon *= self.epsilon_decay
 
     def save(self):
-        torch.save(self.dqn.state_dict(), "./dqn/model/ddqn.pt")
+        torch.save(self.dqn.state_dict(), "./ddqn/model/ddqn.pt")
 
     def load(self):
-        self.dqn.load_state_dict(torch.load("./dqn/model/ddqn.pt"))
+        self.dqn.load_state_dict(torch.load("./ddqn/model/ddqn.pt"))
         self.dqn.eval()
