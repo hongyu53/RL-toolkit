@@ -82,8 +82,8 @@ class Agent:
             self.epsilon *= self.epsilon_decay
 
     def save(self):
-        torch.save(self.dqn.state_dict(), "./dqn/model/dqn.pt")
+        torch.save(self.dqn.state_dict(), "./dqn/model/ddqn.pt")
 
     def load(self):
-        self.dqn.load_state_dict(torch.load("./dqn/model/dqn.pt"))
+        self.dqn.load_state_dict(torch.load("./dqn/model/ddqn.pt"))
         self.dqn.eval()
