@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from dqn.agent import Agent
-from dqn.assets import env, params
+from ddqn.agent import Agent
+from ddqn.assets import env, params
 from tqdm import tqdm
 
 

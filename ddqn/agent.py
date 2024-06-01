@@ -1,13 +1,15 @@
 import torch
 import torch.nn as nn
+
 from dqn.agent import Agent as dqn_agent
 
 
 class Agent(dqn_agent):
+
     def __init__(
         self,
-        state_dim,
         action_dim,
+        state_dim,
         lr,
         gamma,
         epsilon,
@@ -16,8 +18,8 @@ class Agent(dqn_agent):
         update_interval,
     ):
         super(Agent, self).__init__(
-            state_dim,
             action_dim,
+            state_dim,
             lr,
             gamma,
             epsilon,
