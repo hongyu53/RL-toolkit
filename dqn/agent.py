@@ -3,9 +3,9 @@ import torch.nn as nn
 
 
 class Agent:
-    class DQN(nn.Module):
+    class Network(nn.Module):
         def __init__(self, state_dim, action_dim):
-            super(Agent.DQN, self).__init__()
+            super(Agent.Network, self).__init__()
             self.fc1 = nn.Linear(state_dim, 256)
             self.fc2 = nn.Linear(256, 128)
             self.fc3 = nn.Linear(128, action_dim)
@@ -28,8 +28,8 @@ class Agent:
         update_interval,
     ):
         # networks
-        self.dqn = Agent.DQN(state_dim, action_dim)
-        self.dqn_target = Agent.DQN(state_dim, action_dim)
+        self.dqn = Agent.Network(state_dim, action_dim)
+        self.dqn_target = Agent.Network(state_dim, action_dim)
         self.dqn_target.load_state_dict(self.dqn.state_dict())
         self.dqn_optimizer = torch.optim.Adam(self.dqn.parameters(), lr)
         # hyperparameters

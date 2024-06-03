@@ -31,6 +31,7 @@ class Tester:
             episode_reward = 0
 
             while True:
+                env.render()
                 action = self.agent.select_action(torch.Tensor(state), test=True)
                 next_state, reward, done, _, _ = self.env.step(action)
                 if done:
