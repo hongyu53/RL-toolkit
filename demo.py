@@ -5,7 +5,7 @@ parser.add_argument(
     "-a",
     "--algorithm",
     type=str,
-    choices=["dqn", "q_learning", "ddpg", "ddqn"],
+    choices=["q_learning", "dqn", "ddqn", "d3qn", "ddpg"],
     help="select algorithm",
 )
 parser.add_argument(
@@ -17,43 +17,58 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
-if args.algorithm == "dqn":
-    import dqn.tester
-    import dqn.trainer
-
+if args.algorithm == "q_learning":
     if args.mode == "train":
-        trainer = dqn.trainer.Trainer()
+        from q_learning.trainer import Trainer
+
+        trainer = Trainer()
         trainer.train()
     elif args.mode == "test":
-        tester = dqn.tester.Tester()
+        from q_learning.tester import Tester
+
+        tester = Tester()
+        tester.test()
+elif args.algorithm == "dqn":
+    if args.mode == "train":
+        from dqn.trainer import Trainer
+
+        trainer = Trainer()
+        trainer.train()
+    elif args.mode == "test":
+        from dqn.tester import Tester
+
+        tester = Tester()
         tester.test()
 elif args.algorithm == "ddqn":
-    import ddqn.tester
-    import ddqn.trainer
-
     if args.mode == "train":
-        trainer = ddqn.trainer.Trainer()
+        from ddqn.trainer import Trainer
+
+        trainer = Trainer()
         trainer.train()
     elif args.mode == "test":
-        tester = ddqn.tester.Tester()
+        from ddqn.tester import Tester
+
+        tester = Tester()
         tester.test()
-elif args.algorithm == "q_learning":
-    import q_learning.tester
-    import q_learning.trainer
-
+elif args.algorithm == "d3qn":
     if args.mode == "train":
-        trainer = q_learning.trainer.Trainer()
+        from d3qn.trainer import Trainer
+
+        trainer = Trainer()
         trainer.train()
     elif args.mode == "test":
-        tester = q_learning.tester.Tester()
+        from d3qn.tester import Tester
+
+        tester = Tester()
         tester.test()
 elif args.algorithm == "ddpg":
-    import ddpg.tester
-    import ddpg.trainer
-
     if args.mode == "train":
-        trainer = ddpg.trainer.Trainer()
+        from ddpg.trainer import Trainer
+
+        trainer = Trainer()
         trainer.train()
     elif args.mode == "test":
-        tester = ddpg.tester.Tester()
+        from ddpg.tester import Tester
+
+        tester = Tester()
         tester.test()

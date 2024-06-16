@@ -1,11 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from tqdm import tqdm
-
 from ddqn.agent import Agent
 from ddqn.assets import env, params
 from ddqn.utils.replay_buffer import ReplayBuffer
+from tqdm import tqdm
 
 
 class Trainer:
@@ -41,7 +40,7 @@ class Trainer:
                 self.buffer.store((state, action, next_state, reward, done))
                 if self.buffer.is_full():
                     training_set = self.buffer.sample()
-                    self.agent.train(training_set, self.num_epoch)
+                    self.agent.learn(training_set, self.num_epoch)
                 if done:
                     break
                 state = next_state
