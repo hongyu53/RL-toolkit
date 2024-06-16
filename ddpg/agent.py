@@ -62,7 +62,7 @@ class Agent:
                 param_target.data * (1.0 - self.tau) + param_source.data * self.tau
             )
 
-    def train(self, training_set, num_epoch):
+    def learn(self, training_set, num_epoch):
         for _ in range(num_epoch):
             # load training set
             s, a, s_, r, done = training_set

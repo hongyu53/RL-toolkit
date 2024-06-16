@@ -38,7 +38,7 @@ class Trainer:
                 self.buffer.store((state, action, next_state, reward, done))
                 if self.buffer.is_full():
                     training_set = self.buffer.sample()
-                    self.agent.train(training_set, params["num_epoch"])
+                    self.agent.learn(training_set, params["num_epoch"])
                 if done or truncated:
                     break
                 state = next_state
